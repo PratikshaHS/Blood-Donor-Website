@@ -88,4 +88,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-For any queries or support, please contact [Your Email] or open an issue on GitHub.
+For any queries or support, please contact pratikshahsamant@gmail.com or open an issue on GitHub.
