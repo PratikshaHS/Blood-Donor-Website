@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Multiple Markers with Info Windows</title>
+    <script>
+        let map;
+
+        async function initMap() {
+            const positions = [
+                {
+                    position: { lat: -25.344, lng: 131.031 },
+                    title: "Uluru",
+                    content: `
+                      <div>
+                        <h1>Uluru</h1>
+                        <div>
+                          <p>
+                            <b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large
+                            sandstone rock formation in the southern part of the
+                            Northern Territory, central Australia. It lies 335 km (208 mi)
+                            south west of the nearest large town, Alice Springs; 450 km
+                            (280 mi) by road. Kata Tjuta and Uluru are the two major
+                            features of the Uluru - Kata Tjuta National Park.
+                          </p>
+                        </div>
+                      </div>`
+                },
+                {
+                    position: { lat: -34.9285, lng: 138.6007 },
+                    title: "Adelaide",
+                    content: "<h1>Adelaide</h1><p>Details about Adelaide.</p>"
+                },
+                {
+                    position: { lat: -37.8136, lng: 144.9631 },
+                    title: "Melbourne",
+                    content: "<h1>Melbourne</h1><p>Details about Melbourne.</p>"
+                },
+                {
+                    position: { lat: -33.8688, lng: 151.2093 },
+                    title: "Sydney",
+                    content: "<h1>Sydney</h1><p>Details about Sydney.</p>"
+                }
+            ];
+
+            const infoWindow = new google.maps.InfoWindow();
+
+            // Request needed libraries.
+            //@ts-ignore
+            const { Map } = await google.maps.importLibrary("maps");
+            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+            // Create the map, centered at the first position
+            map = new Map(document.getElementById("map"), {
+                zoom: 4,
+                center: positions[0].position,
+                mapId: "DEMO_MAP_ID",
+            });
+
+            // Add markers for each position
+            positions.forEach(({ position, title, content }) => {
+                const marker = new AdvancedMarkerElement({
+                    map: map,
+                    position: position,
+                    title: title,
+                });
+
+                // Add click event to show the info window
+                marker.addListener('click', () => {
+                    infoWindow.setContent(content);
+                    infoWindow.open({ anchor: marker, map: map });
+                });
+            });
+        }
+
+        window.initMap = initMap;
+    </script>
+    <style>
+        #map {
+            height: 80%;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5dxLnMHoeoCE5pyXvvpg8ZuNLYB0RTF0&callback=initMap&libraries=marker&v=beta&solution_channel=GMP_CCS_infowindows_v2"
+        defer></script>
+</body>
+
+</html>
